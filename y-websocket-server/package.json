@@ -1,0 +1,22 @@
+{
+  "name": "y-websocket-server",
+  "version": "1.0.0",
+  "description": "Y-WebSocket server for collaborative editing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "y-websocket": "^1.5.0",
+    "ws": "^8.14.2",
+    "lib0": "^0.2.88"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+

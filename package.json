@@ -1,0 +1,33 @@
+{
+  "name": "collab-editor",
+  "version": "1.0.0",
+  "description": "Collaborative Code Editor - Real-time code editing with Yjs",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server",
+    "y-websocket-server"
+  ],
+  "scripts": {
+    "build": "cd client && npm run build",
+    "start": "cd client && npm start",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:ws\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:ws": "cd y-websocket-server && npm start",
+    "dev:client": "cd client && npm start",
+    "install:all": "cd client && npm install && cd ../server && npm install && cd ../y-websocket-server && npm install"
+  },
+  "keywords": [
+    "collaborative",
+    "code-editor",
+    "real-time",
+    "yjs",
+    "monaco-editor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
+

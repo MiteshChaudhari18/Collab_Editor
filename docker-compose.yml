@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: collab-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=collab
+    networks:
+      - collab-network
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: collab-server
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://mongodb:27017/collab
+      - JWT_SECRET=${JWT_SECRET:-supersecretkey}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT:-465}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASS=${MAIL_PASS}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
+    depends_on:
+      - mongodb
+    networks:
+      - collab-network
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  y-websocket:
+    build:
+      context: ./y-websocket-server
+      dockerfile: Dockerfile
+    container_name: collab-y-websocket
+    ports:
+      - "1234:1234"
+    networks:
+      - collab-network
+    volumes:
+      - ./y-websocket-server/persistence:/app/persistence
+      - ./y-websocket-server:/app
+      - /app/node_modules
+
+volumes:
+  mongodb_data:
+
+networks:
+  collab-network:
+    driver: bridge
+
